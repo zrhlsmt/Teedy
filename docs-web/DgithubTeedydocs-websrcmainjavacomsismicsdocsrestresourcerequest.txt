@@ -1,0 +1,10 @@
+Username: zzz
+Email: 1278876776@qq.com
+Reason: zzz
+Status: PENDING
+-------------------------
+Username: zzz
+Email: 1278876776@qq.com
+Reason: zzz
+Status: PENDING
+-------------------------

@@ -1,0 +1,25 @@
+<div class="modal-header">
+  <h3 class="modal-title">{{ 'registration.request_title' | translate }}</h3>
+</div>
+<div class="modal-body">
+  <form name="registrationRequestForm">
+    <div class="form-group">
+      <label for="username">{{ 'registration.username' | translate }}</label>
+      <input type="text" id="username" class="form-control" ng-model="request.username" required />
+    </div>
+    <div class="form-group">
+      <label for="email">{{ 'registration.email' | translate }}</label>
+      <input type="email" id="email" class="form-control" ng-model="request.email" required />
+    </div>
+    <div class="form-group">
+      <label for="reason">{{ 'registration.reason' | translate }}</label>
+      <textarea id="reason" class="form-control" ng-model="request.reason" required></textarea>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-primary" ng-click="submitRequest()" ng-disabled="registrationRequestForm.$invalid">
+    {{ 'registration.submit_request' | translate }}
+  </button>
+  <button class="btn btn-default" ng-click="cancel()">{{ 'registration.cancel' | translate }}</button>
+</div>

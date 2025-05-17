@@ -40,13 +40,17 @@ import jakarta.ws.rs.core.NewCookie;
 import jakarta.ws.rs.core.Response;
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
-
 /**
  * User REST resources.
  * 
+ 
+
  * @author jtremeaux
  */
 @Path("/user")
@@ -1101,6 +1105,65 @@ public class UserResource extends BaseResource {
         return Response.ok().entity(response.build()).build();
     }
 
+        /**
+     * Submit a registration request.
+     *
+     * @api {post} /user/register_request Submit a registration request
+     * @apiName PostRegisterRequest
+     * @apiGroup User
+     * @apiParam {String} username Username
+     * @apiParam {String} email Email
+     * @apiParam {String} reason Reason for registration
+     * @apiSuccess {String} status Status OK
+     * @apiError (server) FileWriteError Error writing to the file
+     * @apiPermission none
+     * @apiVersion 1.0.0
+     *
+     * @param username Username
+     * @param email Email
+     * @param reason Reason for registration
+     * @return Response
+     */
+    @POST
+    @Path("/register_request")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response submitRegistrationRequest(
+            @FormParam("username") String username,
+            @FormParam("email") String email,
+            @FormParam("reason") String reason) {
+
+        
+        // Validate input data
+        ValidationUtil.validateStringNotBlank("username", username);
+        ValidationUtil.validateStringNotBlank("email", email);
+        ValidationUtil.validateStringNotBlank("reason", reason);
+
+        // Define the file path
+        String filePath = "request.txt"; // 替换为你的实际文件路径
+        java.io.File file = new java.io.File(filePath);
+        // 准备写入的内容
+        String content = "Username: " + username + "\n" +
+                         "Email: " + email + "\n" +
+                         "Reason: " + reason + "\n" +
+                         "Status: PENDING\n" +
+                         "-------------------------";
+
+        // 使用BufferedWriter写入文件
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
+            writer.write(content);
+            writer.newLine(); // 换行
+        } catch (IOException e) {
+            throw new ServerException("FileWriteError", "Error writing to the file: " + filePath, e);
+        }
+
+        // 返回成功响应
+        JsonObjectBuilder response = Json.createObjectBuilder()
+                .add("status", "ok");
+        return Response.ok().entity(response.build()).build();
+    }
+
+
     /**
      * Returns the authentication token value.
      *
@@ -1143,3 +1206,5 @@ public class UserResource extends BaseResource {
     }
 
 }
+
+

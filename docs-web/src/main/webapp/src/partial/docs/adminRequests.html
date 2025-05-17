@@ -1,0 +1,27 @@
+<h1>{{ 'admin.requests_title' | translate }}</h1>
+<pre>{{ requests | json }}</pre>
+<table class="table">
+  <thead>
+    <tr>
+      <th>{{ 'admin.username' | translate }}</th>
+      <th>{{ 'admin.email' | translate }}</th>
+      <th>{{ 'admin.reason' | translate }}</th>
+      <th>{{ 'admin.actions' | translate }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="request in requests">
+      <td>{{ request.username }}</td>
+      <td>{{ request.email }}</td>
+      <td>{{ request.reason }}</td>
+      <td>
+        <button class="btn btn-success" ng-click="approveRequest(request)">
+          {{ 'admin.approve' | translate }}
+        </button>
+        <button class="btn btn-danger" ng-click="rejectRequest(request)">
+          {{ 'admin.reject' | translate }}
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>

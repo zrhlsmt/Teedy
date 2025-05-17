@@ -75,4 +75,48 @@ angular.module('docs').controller('Login', function(Restangular, $scope, $rootSc
       });
     });
   };
+
+  $scope.openRegistrationRequestModal = function () {
+    $uibModal.open({
+      templateUrl: 'partial/docs/registrationRequestModal.html',
+      controller: function ($scope, $uibModalInstance, $http) {
+        $scope.request = {};
+  
+        $scope.submitRequest = function () {
+          Restangular.one('user').post('register_request', $scope.request)
+          .then(function () {
+            alert('Registration request submitted successfully!');
+            $uibModalInstance.close();
+          })
+          .catch(function (error) {
+            alert('Error submitting registration request: ' + (error.data.message || 'Unknown error'));
+          });
+        };
+  
+        $scope.cancel = function () {
+          $uibModalInstance.dismiss('cancel');
+        };
+      }
+    });
+  };
+
+  // $scope.goToRegister = function() {
+  //   $state.go('settings.user.register.html'); // 跳转到注册页面的路由
+  // };
+
+  // $scope.saveToFile = function() {
+  //   const userData = {
+  //     username: $scope.newUser.username,
+  //     email: $scope.newUser.email,
+  //     password: $scope.newUser.password
+  //   };
+
+  //   $http.post('/api/saveToFile', userData)
+  //     .then(function(response) {
+  //       alert('Data saved to file successfully!');
+  //     })
+  //     .catch(function(error) {
+  //       alert('Error saving data to file: ' + error.data.message);
+  //     });
+  // };
 });
