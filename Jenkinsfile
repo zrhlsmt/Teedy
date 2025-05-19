@@ -2,7 +2,7 @@
     agent any
     environment {
         DEPLOYMENT_NAME = "hello-node"
-        CONTAINER_NAME = "docs"
+        CONTAINER_NAME = "minikube"
         IMAGE_NAME = "lordofmystery/teedy"
     }
     stages {
