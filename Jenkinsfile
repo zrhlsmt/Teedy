@@ -5,13 +5,13 @@
         CONTAINER_NAME = "minikube"
         IMAGE_NAME = "lordofmystery/teedy"
     }
-    stages {
+ stages {
         stage('Start Minikube') {
             steps {
                 sh '''
                     if ! minikube status | grep -q "Running"; then
                         echo "Starting Minikube..."
-                        minikube start
+                        minikube start --force  # 如果需要 root 权限，可以加上 --force
                     else
                         echo "Minikube already running."
                     fi
@@ -22,7 +22,7 @@
             steps {
                 sh '''
                     echo "Setting image for deployment..."
-                    kubectl set image deployment/${DEPLOYMENT_NAME} ${CONTAINER_NAME}=${IMAGE_N
+                    kubectl set image deployment/${DEPLOYMENT_NAME} ${CONTAINER_NAME}=${IMAGE_NAME}
                 '''
             }
         }
